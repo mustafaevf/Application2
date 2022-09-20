@@ -4,6 +4,14 @@
 
 
 
+Station::Station()
+{
+	setName("");
+	setCountWorkshop(0);
+	setCountActiveWorkshop(0);
+	setEfficiency(0);
+}
+
 void Station::setName(std::string name) {
 	this->name = name;
 }
@@ -90,7 +98,7 @@ void Station::inputForEnterEfficiency()
 	setEfficiency(efficiency);
 }
 void Station::print() {
-	if (getName() == "") {
+	if (!valid()) {
 		std::cout << "Ошибка, станция не найдена" << std::endl;
 		return;
 	}
@@ -99,4 +107,36 @@ void Station::print() {
 	std::cout << " Количество цехов: " << getCountWorkshop() << std::endl;
 	std::cout << " Количество рабочих цехов: " << getCountActiveWorkshop() << std::endl;
 	std::cout << " Эффективность: " << getEfficiency() << std::endl;
+}
+
+void Station::updateStation(int action)
+{
+	if (action == 1) {
+		if (getCountWorkshop() > getCountActiveWorkshop()) {
+			setCountActiveWorkshop(getCountActiveWorkshop() + 1);
+			std::cout << "Цех запущен\nКоличество активных: " << getCountActiveWorkshop() << std::endl;
+		}
+		else {
+			std::cout << "Запущено макс кол-во цехов" << std::endl;
+		}
+	}
+	if (action == 0) {
+		if (getCountActiveWorkshop() != 0) {
+			setCountActiveWorkshop(getCountActiveWorkshop() - 1);
+			std::cout << "Цех отключен\nКоличество активных: " << getCountActiveWorkshop() << std::endl;
+		}
+		else {
+			std::cout << "Все цеха выключены" << std::endl;
+		}
+	}
+}
+
+bool Station::valid()
+{
+	if (getName() == "" && getCountWorkshop() == 0 && getCountActiveWorkshop() == 0 && getEfficiency() == 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }

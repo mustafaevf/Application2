@@ -7,6 +7,7 @@ private:
 
 
 public:
+	Pipe();
 	int getLength();
 	int getDiametr();
 	bool getInRepair();
@@ -17,5 +18,6 @@ public:
 	void inputForEnterDiametr();
 	void inputForEnterInRepair();
 	void print();
+	bool valid();
 };
 

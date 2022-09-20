@@ -3,6 +3,13 @@
 
 
 
+Pipe::Pipe()
+{
+	setLength(0);
+	setDiametr(0);
+	setInRepair(0);
+}
+
 int Pipe::getLength() {
 	return this->length;
 }
@@ -70,12 +77,22 @@ void Pipe::inputForEnterInRepair() {
 }
 void Pipe::print() {
 
-	if (getLength() == 0) {
+	if (!valid()) {
 		std::cout << "Ошибка, труба не найдена" << std::endl;
 		return;
 	}
 	std::cout << "Труба" << std::endl;
 	std::cout << " Длина: " << getLength() << " м" << std::endl;
 	std::cout << " Диаметр: " << getDiametr() << " м" << std::endl;
-	std::cout << " В ремонте: " << getInRepair() << std::endl;
+	std::cout << " В ремонте: " << (getInRepair() ? "true":"false") << std::endl;
+}
+
+bool Pipe::valid()
+{
+	if (getLength() == 0 && getDiametr() == 0 && getInRepair() == 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }

@@ -146,13 +146,27 @@ void createStation(Station& station) {
 
 void updateStation(Station& station) {
 	clearMenu();
-	cout << "Название: " << station.getName() << "\nКоличество цехов: " << station.getCountWorkshop() << "\nКоличество рабочих цехов: " << station.getCountActiveWorkshop() << "\nПоказатель эффективности: " << station.getEfficiency() << endl;
-	station.inputForEnterName();
-	station.inputForEnterCountWorkshop();
-	station.inputForEntertCountActiveWorkshop();
-	station.inputForEnterEfficiency();
+	if (!station.valid()) {
+		cout << "Добавте станцию" << endl;
+		printMenu();
+		loop = 1;
+		return;
+	}
+	int action;
+	cout << "Количество цехов: " << station.getCountWorkshop() << "\nРабочих цехов: " << station.getCountActiveWorkshop() << "\n0. Отключить\n1. Включить" << endl;
+	cin >> action;
 	clearMenu();
-	cout << "Станция обновлена" << endl;
+	if (action == 0)
+	{
+		station.updateStation(0);
+	}
+	else if (action == 1) {
+		station.updateStation(1);
+	}
+	else {
+		cout << "Повторите попытку" << endl;
+		updateStation(station);
+	}
 	printMenu();
 	loop = 1;
 }
@@ -160,12 +174,37 @@ void updateStation(Station& station) {
 
 void updatePipe(Pipe& pipe) {
 	clearMenu();
-	cout << "Длина: " << pipe.getLength() << "\nДиаметр: " << pipe.getDiametr() << "\nВ ремонте: " << pipe.getInRepair() << endl;
-	pipe.inputForEnterLength();
-	pipe.inputForEnterDiametr();
-	pipe.inputForEnterInRepair();
+	if (!pipe.valid()) {
+		cout << "Добавте трубу" << endl;
+		printMenu();
+		loop = 1;
+		return;
+	}
+	int action;
+	cout << "Статус трубы: " << (pipe.getInRepair() ? "true":"false") << "\n0. Отключить\n1. Включить" << endl;
+	cin >> action;
 	clearMenu();
-	cout << "Труба обновлена" << endl;
+	if (action == 0) {
+		if (pipe.getInRepair() != 0) {
+			pipe.setInRepair(0);
+			cout << "Труба отключена" << endl;
+		}
+		else {
+			cout << "Труба уже отключена" << endl;
+		}
+	} else if(action == 1) {
+		if (pipe.getInRepair() != 1) {
+			pipe.setInRepair(1);
+			cout << "Труба включена" << endl;
+		}
+		else {
+			cout << "Труба уже включена" << endl;
+		}
+	}
+	else {
+		cout << "Повторите попытку" << endl;
+	}
+	
 	printMenu();
 	loop = 1;
 
@@ -180,12 +219,9 @@ void printObjects(Pipe& pipe, Station& station) {
 }
 
 
-
-
 int main() {
 	setlocale(LC_ALL, "");
 	Pipe pipe;
-	pipe.setLength (0);
 	Station station;
 	clearMenu();
 	printMenu();
